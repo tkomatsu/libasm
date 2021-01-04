@@ -6,7 +6,7 @@
 #    By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/01 16:08:17 by tkomatsu          #+#    #+#              #
-#    Updated: 2021/01/01 17:22:37 by tkomatsu         ###   ########.fr        #
+#    Updated: 2021/01/04 20:33:04 by tkomatsu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRC_DIR = src/
 
-FILES = ft_strlen.s \
-		ft_strcpy.s \
+FILES = ft_strlen.s
+#		ft_strcpy.s \
 		ft_strcmp.s \
 		ft_write.s \
 		ft_read.s \
@@ -45,8 +45,11 @@ clean:
 	rm -f $(OBJS)
 
 fclean:
-	rm -f $(OBJS) $(NAME)
+	rm -f $(OBJS) $(NAME) asm_test
 
 re: fclean all
+
+main: $(NAME)
+	$(CC) $(CFLAGS) -o asm_test main.c $<
 
 .PHONY: all clean fclean re 
