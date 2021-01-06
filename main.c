@@ -6,7 +6,7 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/06 12:13:51 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/06 12:24:51 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,28 @@ int		test_strlen(char const *str)
 		printf("\033[32m[OK]\033[39m ");
 	else
 		printf("\033[31m[NG]\033[39m ");
-	return ((int)(i == j));
+	return ((int)(!(i == j)));
+}
+
+int		test_strcpy(char *dst, const char *src)
+{
+	char	*ret;
+
+	ret = ft_strcpy(dst, src);
+	if (!strcmp(dst, src) && !strcmp(ret, src))
+		printf("\033[32m[OK]\033[39m ");
+	else
+	{
+		printf("\033[31m[NG]\033[39m ");
+		return (1);
+	}
+	return (0);
 }
 
 int		main(void)
 {
 	char	*src[6] = {"foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq1231"};
+	char	buf[300];
 	int		ret[6];
 
 	/* STRLEN TEST */
@@ -45,7 +61,18 @@ int		main(void)
 		ret[i] = test_strlen((const char*)src[i]);
 	puts("");
 	for (int i = 0; i < 6; i++)
-		if (!ret[i])
+		if (ret[i])
+			printf("NG: %s\n", src[i]);
+	puts("--------------------------------------------------------------------------------");
+
+	/* STRCPY TEST */
+	puts("--------------------------------------------------------------------------------");
+	puts("FT_STRCPY TEST :");
+	for (int i = 0; i < 6; i++)
+		ret[i] = test_strcpy(buf, (const char*)src[i]);
+	puts("");
+	for (int i = 0; i < 6; i++)
+		if (ret[i])
 			printf("NG: %s\n", src[i]);
 	puts("--------------------------------------------------------------------------------");
 
