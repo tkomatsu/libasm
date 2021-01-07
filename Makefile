@@ -6,7 +6,7 @@
 #    By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/01 16:08:17 by tkomatsu          #+#    #+#              #
-#    Updated: 2021/01/07 21:29:16 by tkomatsu         ###   ########.fr        #
+#    Updated: 2021/01/07 21:42:25 by tkomatsu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ FILES = ft_strlen.s \
 		ft_strcpy.s \
 		ft_strcmp.s \
 		ft_write.s \
-		ft_read.s
-#		ft_strdup.s
+		ft_read.s \
+		ft_strdup.s
 
 SRCS = $(addprefix $(SRC_DIR), $(FILES))
 OBJS = $(SRCS:.s=.o)

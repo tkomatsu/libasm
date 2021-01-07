@@ -6,7 +6,7 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/07 21:25:18 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/07 21:42:10 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,24 @@ int		test_read(void)
 	return ((int)(org - ft));
 }
 
+int		test_strdup(const char *src)
+{
+	char	*dst1, *dst2;
+
+	dst1 = strdup(src);
+	dst2 = ft_strdup(src);
+	if (!strcmp(dst1, dst2))
+	{
+		printf("\033[32m[OK]\033[39m ");
+		return (0);
+	}
+	else
+	{
+		printf("\033[31m[NG]\033[39m ");
+		return (1);
+	}
+}
+
 int		main(void)
 {
 	char	*src[6] = {"foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq1231"};
@@ -156,6 +174,16 @@ int		main(void)
 	test_read();
 	puts("");
 	close(fd);
+
+	/* STRDUP TEST */
+	puts("--------------------------------------------------------------------------------");
+	puts("FT_STRDUP TEST :");
+	for (int i = 0; i < 6; i++)
+		ret[i] = test_strdup((const char*)src[i]);
+	puts("");
+	for (int i = 0; i < 6; i++)
+		if (ret[i])
+			printf("NG: %s\n", src[i]);
 
 	puts("--------------------------------------------------------------------------------");
 
