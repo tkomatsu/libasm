@@ -54,3 +54,4 @@ dkms.conf
 
 # other
 .DS_Store
+*.swp

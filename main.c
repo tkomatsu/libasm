@@ -6,7 +6,7 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/06 12:24:51 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/07 20:20:25 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,23 @@ int		test_strcpy(char *dst, const char *src)
 	return (0);
 }
 
+int		test_strcmp(const char *s1, const char *s2)
+{
+	int		org, ft;
+
+	org = strcmp(s1, s2);
+	ft = ft_strcmp(s1, s2);
+	if (org == ft)
+		printf("\033[32m[OK]\033[39m ");
+	else
+		printf("\033[31m[NG]\033[39m ");
+	return ((int)(org - ft));
+}
+
 int		main(void)
 {
 	char	*src[6] = {"foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq1231"};
+	char	*s2[6] = {"bar", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq12"};
 	char	buf[300];
 	int		ret[6];
 
@@ -63,7 +77,6 @@ int		main(void)
 	for (int i = 0; i < 6; i++)
 		if (ret[i])
 			printf("NG: %s\n", src[i]);
-	puts("--------------------------------------------------------------------------------");
 
 	/* STRCPY TEST */
 	puts("--------------------------------------------------------------------------------");
@@ -74,6 +87,17 @@ int		main(void)
 	for (int i = 0; i < 6; i++)
 		if (ret[i])
 			printf("NG: %s\n", src[i]);
+
+	/* STRCMP TEST */
+	puts("--------------------------------------------------------------------------------");
+	puts("FT_STRCMP TEST :");
+	for (int i = 0; i < 6; i++)
+		ret[i] = test_strcmp((const char*)src[i], (const char*)s2[i]);
+	puts("");
+	for (int i = 0; i < 6; i++)
+		if (ret[i])
+			printf("NG: %s\n", src[i]);
+
 	puts("--------------------------------------------------------------------------------");
 
 	return (0);
