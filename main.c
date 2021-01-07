@@ -6,7 +6,7 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/07 21:07:43 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/07 21:25:18 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,33 @@ int		test_write(int fd, const void *buf, size_t nbyte)
 	return ((int)(org - ft));
 }
 
+int		test_read(void)
+{
+	ssize_t	org, ft;
+	char	buf1[100], buf2[100];
+	int		nbyte = 100;
+	int		fd;
+
+	fd = open("./write.log" ,O_RDONLY);
+	org = read(fd, buf1, nbyte);
+	close(fd);
+	fd = open("./write.log" ,O_RDONLY);
+	ft = ft_read(fd, buf2, nbyte);
+	close(fd);
+	if (org == ft && !memcmp(buf1, buf2, nbyte))
+		printf("\033[32m[OK]\033[39m ");
+	else
+		printf("\033[31m[NG]\033[39m ");
+	return ((int)(org - ft));
+}
+
 int		main(void)
 {
 	char	*src[6] = {"foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq1231"};
 	char	*s2[6] = {"bar", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq12"};
 	char	buf[300];
 	int		ret[6];
+	int		fd;
 
 	/* STRLEN TEST */
 	puts("--------------------------------------------------------------------------------");
@@ -120,13 +141,20 @@ int		main(void)
 	/* WRITE TEST */
 	puts("--------------------------------------------------------------------------------");
 	puts("FT_WRITE TEST :");
-	int	fd = open("./write.log" ,O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+	fd = open("./write.log" ,O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	for (int i = 0; i < 6; i++)
 		ret[i] = test_write(fd, (const void*)src[i], strlen(src[i]));
 	puts("");
 	for (int i = 0; i < 6; i++)
 		if (ret[i])
 			printf("NG: %s\n", src[i]);
+	close(fd);
+
+	/* READ TEST */
+	puts("--------------------------------------------------------------------------------");
+	puts("FT_READ TEST :");
+	test_read();
+	puts("");
 	close(fd);
 
 	puts("--------------------------------------------------------------------------------");
