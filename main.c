@@ -6,12 +6,14 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/07 20:20:25 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/07 21:07:43 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 size_t	ft_strlen(const char *str);
 char	*ft_strcpy(char* dst, const char *src);
@@ -61,6 +63,23 @@ int		test_strcmp(const char *s1, const char *s2)
 	return ((int)(org - ft));
 }
 
+int		test_write(int fd, const void *buf, size_t nbyte)
+{
+	ssize_t	org, ft;
+
+	write(fd, "***************\n", 16);
+	write(fd, "org = ", 7);
+	org = write(fd, buf, nbyte);
+	write(fd, "\nft = ", 6);
+	ft = ft_write(fd, buf, nbyte);
+	write(fd, "\n", 1);
+	if (org == ft)
+		printf("\033[32m[OK]\033[39m ");
+	else
+		printf("\033[31m[NG]\033[39m ");
+	return ((int)(org - ft));
+}
+
 int		main(void)
 {
 	char	*src[6] = {"foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq1231"};
@@ -97,6 +116,18 @@ int		main(void)
 	for (int i = 0; i < 6; i++)
 		if (ret[i])
 			printf("NG: %s\n", src[i]);
+
+	/* WRITE TEST */
+	puts("--------------------------------------------------------------------------------");
+	puts("FT_WRITE TEST :");
+	int	fd = open("./write.log" ,O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+	for (int i = 0; i < 6; i++)
+		ret[i] = test_write(fd, (const void*)src[i], strlen(src[i]));
+	puts("");
+	for (int i = 0; i < 6; i++)
+		if (ret[i])
+			printf("NG: %s\n", src[i]);
+	close(fd);
 
 	puts("--------------------------------------------------------------------------------");
 
