@@ -6,7 +6,7 @@
 #    By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/01 16:08:17 by tkomatsu          #+#    #+#              #
-#    Updated: 2021/01/07 21:42:25 by tkomatsu         ###   ########.fr        #
+#    Updated: 2021/01/08 09:02:06 by tkomatsu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,16 @@ ASFLAGS = -f macho64
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
+DEBUGFLAG = -g3
+
 SRC_DIR = src/
 
 FILES = ft_strlen.s \
 		ft_strcpy.s \
 		ft_strcmp.s \
 		ft_write.s \
-		ft_read.s \
-		ft_strdup.s
+		ft_read.s
+#		ft_strdup.s
 
 SRCS = $(addprefix $(SRC_DIR), $(FILES))
 OBJS = $(SRCS:.s=.o)
@@ -45,12 +47,12 @@ clean:
 	rm -rf $(OBJS) asm_test.dSYM *.log
 
 fclean:
-	rm -f $(OBJS) $(NAME) asm_test asm_test.dSYM
+	rm -rf $(OBJS) $(NAME) asm_test asm_test.dSYM
 
 re: fclean all
 
-debug: ASFLAGS += -g
-debug: CFLAGS += -g
+debug: ASFLAGS += $(DEBUGFLAG)
+debug: CFLAGS += $(DEBUGFLAG)
 debug: fclean main
 
 main: $(NAME)
