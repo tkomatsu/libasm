@@ -6,7 +6,7 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/08 16:05:16 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/08 16:15:30 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,15 @@ int		test_read(int fd_org, int fd_ft)
 	return ((int)(org - ft));
 }
 
-/*
 int		test_strdup(const char *src)
 {
 	char	*dst1, *dst2;
+	int		err;
 
 	dst1 = strdup(src);
+	err = errno;
 	dst2 = ft_strdup(src);
-	if (!strcmp(dst1, dst2))
+	if (!strcmp(dst1, dst2) && err == errno)
 	{
 		printf("\033[32m[OK]\033[39m ");
 		return (0);
@@ -116,7 +117,6 @@ int		test_strdup(const char *src)
 		return (1);
 	}
 }
-*/
 
 int		main(void)
 {
@@ -181,7 +181,6 @@ int		main(void)
 	puts("");
 
 	/* STRDUP TEST */
-	/*
 	puts("--------------------------------------------------------------------------------");
 	puts("FT_STRDUP TEST :");
 	for (int i = 0; i < 6; i++)
@@ -190,7 +189,6 @@ int		main(void)
 	for (int i = 0; i < 6; i++)
 		if (ret[i])
 			printf("NG: %s\n", src[i]);
-	*/
 
 	puts("--------------------------------------------------------------------------------");
 
