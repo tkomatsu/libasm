@@ -6,7 +6,7 @@
 ;    By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2021/01/07 20:23:51 by tkomatsu          #+#    #+#              ;
-;    Updated: 2021/01/08 15:43:49 by tkomatsu         ###   ########.fr        ;
+;    Updated: 2021/01/08 15:51:45 by tkomatsu         ###   ########.fr        ;
 ;                                                                              ;
 ; **************************************************************************** ;
 
@@ -25,6 +25,6 @@ _error:
 	push	rax
 	call	___error
 	pop		r8
-	mov		rax, r8
+	mov		[rax], r8
 	mov		rax, -1
 	ret

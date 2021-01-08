@@ -6,7 +6,7 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/07 21:42:10 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/08 16:05:16 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
 
 size_t	ft_strlen(const char *str);
 char	*ft_strcpy(char* dst, const char *src);
@@ -66,33 +67,30 @@ int		test_strcmp(const char *s1, const char *s2)
 int		test_write(int fd, const void *buf, size_t nbyte)
 {
 	ssize_t	org, ft;
+	int		err;
 
 	write(fd, "***************\n", 16);
 	write(fd, "org = ", 7);
 	org = write(fd, buf, nbyte);
+	err = errno;
 	write(fd, "\nft = ", 6);
 	ft = ft_write(fd, buf, nbyte);
 	write(fd, "\n", 1);
-	if (org == ft)
+	if (org == ft && err == errno)
 		printf("\033[32m[OK]\033[39m ");
 	else
 		printf("\033[31m[NG]\033[39m ");
 	return ((int)(org - ft));
 }
 
-int		test_read(void)
+int		test_read(int fd_org, int fd_ft)
 {
 	ssize_t	org, ft;
 	char	buf1[100], buf2[100];
 	int		nbyte = 100;
-	int		fd;
 
-	fd = open("./write.log" ,O_RDONLY);
-	org = read(fd, buf1, nbyte);
-	close(fd);
-	fd = open("./write.log" ,O_RDONLY);
-	ft = ft_read(fd, buf2, nbyte);
-	close(fd);
+	org = read(fd_org, buf1, nbyte);
+	ft = ft_read(fd_ft, buf2, nbyte);
 	if (org == ft && !memcmp(buf1, buf2, nbyte))
 		printf("\033[32m[OK]\033[39m ");
 	else
@@ -100,6 +98,7 @@ int		test_read(void)
 	return ((int)(org - ft));
 }
 
+/*
 int		test_strdup(const char *src)
 {
 	char	*dst1, *dst2;
@@ -117,14 +116,15 @@ int		test_strdup(const char *src)
 		return (1);
 	}
 }
+*/
 
 int		main(void)
 {
 	char	*src[6] = {"foo", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq1231"};
 	char	*s2[6] = {"bar", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tristique dui at tellus blandit vulputate. In hac habitasse platea dictumst. In a nibh", "", "\n", "\n\n", "safwe11234{ewrq12"};
 	char	buf[300];
-	int		ret[6];
-	int		fd;
+	int		ret[10];
+	int		fd, fd_ft;
 
 	/* STRLEN TEST */
 	puts("--------------------------------------------------------------------------------");
@@ -162,6 +162,7 @@ int		main(void)
 	fd = open("./write.log" ,O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	for (int i = 0; i < 6; i++)
 		ret[i] = test_write(fd, (const void*)src[i], strlen(src[i]));
+	ret[6] = test_write(1345, (const void*)src[0], strlen(src[0]));
 	puts("");
 	for (int i = 0; i < 6; i++)
 		if (ret[i])
@@ -171,11 +172,16 @@ int		main(void)
 	/* READ TEST */
 	puts("--------------------------------------------------------------------------------");
 	puts("FT_READ TEST :");
-	test_read();
-	puts("");
+	fd = open("./write.log" ,O_RDONLY);
+	fd_ft = open("./write.log" ,O_RDONLY);
+	ret[0] = test_read(fd, fd_ft);
+	ret[1] = test_read(123, 123);
 	close(fd);
+	close(fd_ft);
+	puts("");
 
 	/* STRDUP TEST */
+	/*
 	puts("--------------------------------------------------------------------------------");
 	puts("FT_STRDUP TEST :");
 	for (int i = 0; i < 6; i++)
@@ -184,6 +190,7 @@ int		main(void)
 	for (int i = 0; i < 6; i++)
 		if (ret[i])
 			printf("NG: %s\n", src[i]);
+	*/
 
 	puts("--------------------------------------------------------------------------------");
 
