@@ -6,7 +6,7 @@
 /*   By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 17:47:26 by tkomatsu          #+#    #+#             */
-/*   Updated: 2021/01/08 16:15:30 by tkomatsu         ###   ########.fr       */
+/*   Updated: 2021/01/18 21:02:44 by tkomatsu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,12 @@ int		main(void)
 	/* READ TEST */
 	puts("--------------------------------------------------------------------------------");
 	puts("FT_READ TEST :");
+	puts("Please type some strings twice.");
 	fd = open("./write.log" ,O_RDONLY);
 	fd_ft = open("./write.log" ,O_RDONLY);
 	ret[0] = test_read(fd, fd_ft);
 	ret[1] = test_read(123, 123);
+	ret[2] = test_read(0, 0);
 	close(fd);
 	close(fd_ft);
 	puts("");

@@ -6,7 +6,7 @@
 #    By: tkomatsu <tkomatsu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/01 16:08:17 by tkomatsu          #+#    #+#              #
-#    Updated: 2021/01/08 16:14:20 by tkomatsu         ###   ########.fr        #
+#    Updated: 2021/01/18 20:59:33 by tkomatsu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ debug: ASFLAGS += $(DEBUGFLAG)
 debug: CFLAGS += $(DEBUGFLAG)
 debug: fclean main
 
-main: $(NAME)
+test: $(NAME)
 	$(CC) $(CFLAGS) -o asm_test main.c $<
 
 .PHONY: all clean fclean re 
